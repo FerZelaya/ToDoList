@@ -1,15 +1,48 @@
 var express = require('express')
 var router = express.Router()
-// var multer = require('multer')
-// const path = require('path')
-// const fs = require('fs')
-// const model = require('./recipes.model')
+var multer = require('multer')
+const path = require('path')
+const fs = require('fs')
+const model = require('./ToDo.models')
+
+const init = async () => {
+    await model.initModel()
+}
+init()
+
+//Main Get all to-dos from user
+router.get('/ToDos', async(req,res)=>{
+    try {
+        var results = await model.showAllToDos()
+        res.status(200).json(results)
+    }catch(error){
+        console.log(error);
+        res.status(500).json({"ERROR":"Unable to fetch your To Dos"})
+    }
+})
 
 
+router.post('/ToDos',  async(req,res) => {
+    try {
+        var {title, description, completed, date} = req.body
+        var result = await model.postToDo(title, description, completed, date);
+        res.status(200).json(result)
+    }catch(error){
+        console.log(error);
+        res.status(500).json({"ERROR":"Unable to post your To Do"})
+    }
+})
 
-
-router.get('/ToDos', (req,res)=>{
-    res.send("Hello todos")
+router.put('/ToDos/:ToDoID', async(req,res) => {
+    try {
+        var {title, description, completed, date} = req.body
+        var ToDoID = req.params.ToDoID
+        var result = await model.updateToDo(title, description, completed, date, ToDoID);
+        res.status(200).json(result)
+    }catch(error){
+        console.log(error);
+        res.status(500).json({"ERROR":"Unable to post your To Do"})
+    }
 })
 
 
