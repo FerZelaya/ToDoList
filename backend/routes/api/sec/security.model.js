@@ -13,25 +13,15 @@ module.exports = class {
         })
     }
 
-    static async getAll(){
-        try{
-            const result = await UserController.find();
-            return result;
-        }catch(error){
-            console.log(error);
-            return errorS
-        }
-    }
-
     //User Info
     static async userInfo(userid){
         try{
             let filter = { "_id": new ObjectId(userid)};
-            const result = await usersColl.findOne(filter);
+            const result = await UserController.findOne(filter);
             return result;
         }catch(error){
             console.log(error);
-            return errorS
+            return error
         }
     }
 

@@ -26,7 +26,7 @@ module.exports = class {
         try{
             if(todoColl){
                 const filter = {"userID": userID}
-                let ToDos = await ToDoController.findOne(filter)
+                let ToDos = await ToDoController.find(filter)
                 return ToDos
             }
             return[]

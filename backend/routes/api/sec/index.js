@@ -13,7 +13,6 @@ init()
 router.post('/',async (req,res) => {
     try {
         var result = await secModel.signUp(req.body)
-        console.log(result);
         res.status(200).json({"Success":"Account created successfuly"})
     }catch(error){
         res.status(500).json({"ERROR":"Something went wrong creating your account"})

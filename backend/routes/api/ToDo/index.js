@@ -1,8 +1,5 @@
 var express = require('express')
 var router = express.Router()
-var multer = require('multer')
-const path = require('path')
-const fs = require('fs')
 const model = require('./ToDo.models')
 
 const init = async () => {
@@ -28,7 +25,8 @@ router.post('/ToDos',  async(req,res) => {
         var {title, description, priority, completed, date} = req.body
         const userID = req.user._id
         var result = await model.postToDo(title, description, priority, completed, date, userID);
-        res.status(200).json(result)
+        const saved = result ? true : false
+        res.status(200).json({"Success": saved})
     }catch(error){
         console.log(error);
         res.status(500).json({"ERROR":"Unable to post your To Do"})
@@ -41,7 +39,8 @@ router.put('/ToDos/:ToDoID', async(req,res) => {
         var {title, description, priority, completed, date} = req.body
         var ToDoID = req.params.ToDoID
         var result = await model.updateToDo(title, description, priority, completed, date, ToDoID);
-        res.status(200).json(result)
+        var updated = result ? true : false
+        res.status(200).json({"Success": updated})
     }catch(error){
         console.log(error);
         res.status(500).json({"ERROR":"Unable to update your To Do"})
@@ -52,7 +51,8 @@ router.delete('/ToDos/:ToDoID', async(req,res) => {
     try {
         var ToDoID = req.params.ToDoID
         var result = await model.deleteToDo(ToDoID);
-        res.status(200).json(result)
+        var deleted = result.deletedCount === 1 ? true : false
+        res.status(200).json({"Success": deleted})
     }catch(error){
         console.log(error);
         res.status(500).json({"ERROR":"Unable to delete your To Do"})
