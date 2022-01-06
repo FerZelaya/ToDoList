@@ -37,10 +37,11 @@ module.exports = class {
     }
 
     //Post a To Do
-    static async postToDo(title, description, completed, date){
+    static async postToDo(title, description, priority, completed, date){
         const todo = new ToDoController({
             title: title,
             description: description,
+            priority: priority,
             completed: completed,
             date: date
         })
@@ -55,7 +56,7 @@ module.exports = class {
     }
 
     //update a to do
-    static async updateToDo(title, description, completed, date, ToDoID){
+    static async updateToDo(title, description, priority, completed, date, ToDoID){
         try {
             const updatedToDo = await ToDoController.updateOne(
                 {_id: ToDoID},
@@ -63,12 +64,26 @@ module.exports = class {
                     {
                         title: title,
                         description: description,
+                        priority: priority,
                         completed: completed,
                         date: date
                     }
                 }
             );
             return updatedToDo;
+        } catch(error){
+            console.log(error);
+            return error
+        }
+
+    }
+
+    //update a to do
+    static async deleteToDo(ToDoID){
+        try {
+            const filter = {_id: ToDoID}
+            const deletedToDo = await ToDoController.deleteOne(filter)
+            return deletedToDo;
         } catch(error){
             console.log(error);
             return error

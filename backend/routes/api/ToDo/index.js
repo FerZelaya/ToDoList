@@ -21,11 +21,11 @@ router.get('/ToDos', async(req,res)=>{
     }
 })
 
-
+//Create a to do
 router.post('/ToDos',  async(req,res) => {
     try {
-        var {title, description, completed, date} = req.body
-        var result = await model.postToDo(title, description, completed, date);
+        var {title, description, priority, completed, date} = req.body
+        var result = await model.postToDo(title, description, priority, completed, date);
         res.status(200).json(result)
     }catch(error){
         console.log(error);
@@ -33,15 +33,27 @@ router.post('/ToDos',  async(req,res) => {
     }
 })
 
+//Update a to do
 router.put('/ToDos/:ToDoID', async(req,res) => {
     try {
-        var {title, description, completed, date} = req.body
+        var {title, description, priority, completed, date} = req.body
         var ToDoID = req.params.ToDoID
-        var result = await model.updateToDo(title, description, completed, date, ToDoID);
+        var result = await model.updateToDo(title, description, priority, completed, date, ToDoID);
         res.status(200).json(result)
     }catch(error){
         console.log(error);
-        res.status(500).json({"ERROR":"Unable to post your To Do"})
+        res.status(500).json({"ERROR":"Unable to update your To Do"})
+    }
+})
+
+router.delete('/ToDos/:ToDoID', async(req,res) => {
+    try {
+        var ToDoID = req.params.ToDoID
+        var result = await model.deleteToDo(ToDoID);
+        res.status(200).json(result)
+    }catch(error){
+        console.log(error);
+        res.status(500).json({"ERROR":"Unable to delete your To Do"})
     }
 })
 
