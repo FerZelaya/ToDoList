@@ -13,7 +13,8 @@ init()
 //Main Get all to-dos from user
 router.get('/ToDos', async(req,res)=>{
     try {
-        var results = await model.showAllToDos()
+        const userID = req.user._id
+        var results = await model.showAllUserToDos(userID)
         res.status(200).json(results)
     }catch(error){
         console.log(error);
@@ -25,7 +26,8 @@ router.get('/ToDos', async(req,res)=>{
 router.post('/ToDos',  async(req,res) => {
     try {
         var {title, description, priority, completed, date} = req.body
-        var result = await model.postToDo(title, description, priority, completed, date);
+        const userID = req.user._id
+        var result = await model.postToDo(title, description, priority, completed, date, userID);
         res.status(200).json(result)
     }catch(error){
         console.log(error);
