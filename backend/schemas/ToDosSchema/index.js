@@ -6,7 +6,8 @@ var ToDoSchema = new Schema({
     description: {type: String, required: false},
     priority: {type: String, required: false},
     completed: {type: Boolean, required: true},
-    date: {type: Date, default: Date.now,required: false}
+    date: {type: Date, default: Date.now,required: false},
+    userID: {type: String, required: true}
 }, {collection: 'ToDos'})
 
 var ToDoController = mongoose.model('ToDoController', ToDoSchema)

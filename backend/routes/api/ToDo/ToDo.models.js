@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose")
 const ObjectId = require('mongodb').ObjectId
 const ToDoController = require('../../../schemas/ToDosSchema')
@@ -23,10 +22,11 @@ module.exports = class {
     }
 
     //Show all ToDos
-    static async showAllToDos(){
+    static async showAllUserToDos(userID){
         try{
             if(todoColl){
-                let ToDos = await ToDoController.find()
+                const filter = {"userID": userID}
+                let ToDos = await ToDoController.findOne(filter)
                 return ToDos
             }
             return[]
@@ -37,13 +37,14 @@ module.exports = class {
     }
 
     //Post a To Do
-    static async postToDo(title, description, priority, completed, date){
+    static async postToDo(title, description, priority, completed, date, userID){
         const todo = new ToDoController({
             title: title,
             description: description,
             priority: priority,
             completed: completed,
-            date: date
+            date: date,
+            userID: ObjectId(userID)
         })
         try {
             const savedToDo = await todo.save();
