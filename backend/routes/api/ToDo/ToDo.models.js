@@ -9,17 +9,17 @@ var todoColl = false;
 module.exports = class {
     //initmodel
     static async initModel(){
-        mongoose.connect(process.env.MONGODBURI, () => {
-            todoColl = true
-        })
-        // if(!todoColl){
-        //     let _db = await db.getDB()
-        //     todoColl = await _db.collection('ToDos')
-        //     console.log("ToDos collection created")
-        //     return
-        // } else {
-        //     return
-        // } 
+        try {
+            // Connect to the MongoDB cluster
+            mongoose.connect(
+              process.env.MONGODBURI,
+              { useNewUrlParser: true, useUnifiedTopology: true },
+              () => {todoColl = true}
+            );
+        
+        } catch (e) {
+            console.log("could not connect");
+        }
     }
 
     //Show all ToDos
