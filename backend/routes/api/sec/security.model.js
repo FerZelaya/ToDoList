@@ -28,6 +28,7 @@ module.exports = class {
     //Sign Up
     static async signUp(data){
         const {name, email, password } = data
+        const accountExist = await this.getByEmail(email)
         const user = new UserController({
             name: name,
             email: email,
@@ -35,8 +36,14 @@ module.exports = class {
             roles: ["public"]
         })
         try {
-            let result = await user.save()
-            return result
+            var result
+            if(accountExist){
+                result = {"Success": false}
+                return result
+            } else {
+                result = await user.save()
+                return result.name && {"Success": true} 
+            }
         } catch(error){
             console.log(error);
             return error
