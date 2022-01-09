@@ -8,6 +8,10 @@ import {
   Link,
 } from "@mui/material";
 import "./login.css";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { State } from "../../state/reducers/index";
+import { userActionsCreator } from "../../state/action-creators/Users-actions/index";
 
 interface LoginProps {
   auth: {
@@ -24,11 +28,16 @@ interface LoginData {
 
 const Login: React.FC<LoginProps> = ({ auth }) => {
   const [loginData, setLoginData] = useState<LoginData>({
-      email: "",
-      password: "",
-      redirectTo: false
+    email: "",
+    password: "",
+    redirectTo: false,
   });
   const { login } = auth;
+
+  const dispatch = useDispatch();
+
+  const { signin } = bindActionCreators(userActionsCreator, dispatch);
+  const state = useSelector((state: State) => state.users);
 
   function onTextChange(e) {
     const { name, value } = e.target;
@@ -40,7 +49,7 @@ const Login: React.FC<LoginProps> = ({ auth }) => {
 
   function onClickLogIn(e) {
     e.preventDefault();
-    console.log(loginData);
+    signin(loginData)
   }
 
   //   useEffect(() => {
@@ -84,7 +93,6 @@ const Login: React.FC<LoginProps> = ({ auth }) => {
           </Grid>
 
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
