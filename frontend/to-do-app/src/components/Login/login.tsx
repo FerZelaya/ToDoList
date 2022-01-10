@@ -23,21 +23,18 @@ interface LoginProps {
 interface LoginData {
   email: string;
   password: string;
-  redirectTo: Boolean;
 }
 
 const Login: React.FC<LoginProps> = ({ auth }) => {
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
-    password: "",
-    redirectTo: false,
+    password: ""
   });
   const { login } = auth;
 
   const dispatch = useDispatch();
 
   const { signin } = bindActionCreators(userActionsCreator, dispatch);
-  const state = useSelector((state: State) => state.users);
 
   function onTextChange(e) {
     const { name, value } = e.target;
@@ -49,7 +46,7 @@ const Login: React.FC<LoginProps> = ({ auth }) => {
 
   function onClickLogIn(e) {
     e.preventDefault();
-    signin(loginData)
+    signin(loginData);
   }
 
   //   useEffect(() => {
@@ -93,6 +90,7 @@ const Login: React.FC<LoginProps> = ({ auth }) => {
           </Grid>
 
           <Button
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"

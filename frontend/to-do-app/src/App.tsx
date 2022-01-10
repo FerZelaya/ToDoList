@@ -28,20 +28,20 @@ const App: React.FC = () => {
     loadingBackend: false,
   });
 
-  if (state.jwt !== "") {
-    setJWT(state.jwt);
-    setState({ ...state, isLogged: true });
-  }
+  // if (state.jwt !== "") {
+  //   setJWT(state.jwt);
+  //   setState({ ...state, isLogged: true });
+  // }
 
-  const setLogin = (user, jwt) => {
-    setState({ ...state, user: user, jwt: jwt, isLogged: true });
-    setLocalStorage("user", JSON.stringify(state.user))
-    setLocalStorage("jwt", state.jwt)
-  };
+  // const setLogin = (user, jwt) => {
+  //   setState({ ...state, user: user, jwt: jwt, isLogged: true });
+  //   setLocalStorage("user", JSON.stringify(state.user))
+  //   setLocalStorage("jwt", state.jwt)
+  // };
 
   const auth = {
     isLogged: true,
-    login: setLogin,
+    // login: setLogin,
   };
   return (
     <Router>
