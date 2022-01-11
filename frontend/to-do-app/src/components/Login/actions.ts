@@ -1,7 +1,12 @@
 import {naxios} from '../../utilities/axios'
 import {routes} from '../../routes/routes'
 
-export const signIn = async (email, password) => {
+interface userData {
+    email: string
+    password: string
+}
+
+export const signIn = async ({email, password}:userData) => {
     try{
         const {data} = await naxios.post(
             routes.HOST + routes.login,
@@ -10,6 +15,7 @@ export const signIn = async (email, password) => {
                 password:password
             }
         )
+        
         return data
     }catch(error){
         throw(error)

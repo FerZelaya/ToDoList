@@ -8,37 +8,28 @@ const initialState = {
   user: {},
   jwt: "",
   isLogged: false,
-  loadingBackend: false
+  loadingBackend: false,
 };
 
-const reducer = async (state: Object = initialState, action: ACTIONS) => {
+const reducer = (state = initialState, action: ACTIONS) => {
   switch (action.type) {
     case UserTypes.SIGNIN:
-      const payload: object = action.payload;
-      try {
-        const userData = await signIn(payload["email"], payload["password"]);
-        const { jwt } = userData;
-        delete userData.jwt;
-        state["user"] = userData;
-        state["jwt"] = jwt;
-        axiosActions.setLocalStorage("user", JSON.stringify(userData));
-        axiosActions.setLocalStorage("jwt", jwt);
-        axiosActions.setJWT(jwt);
-      } catch (error) {
-        alert("Error trying to login");
-        console.log(error);
-      }
-      console.log(state["jwt"]);
-
-      return { state };
-    case UserTypes.SET_USER_DATA:
-
+      let newState = Object.assign(state, { ...action.payload });
+      return {
+        ...state,
+        ...newState,
+        // user: action.payload["user"],
+        // jwt: action.payload["jwt"],
+        // redirectTo: true,
+        // isLogged: true,
+        // loadingBackend: false
+      };
     case UserTypes.SIGNUP:
       return { ...state };
     case UserTypes.SIGNOUT:
       return { ...state };
     default:
-      return { ...state };
+      return state;
   }
 };
 

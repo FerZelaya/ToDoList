@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { State } from "../../state/reducers/index";
 import { userActionsCreator } from "../../state/action-creators/Users-actions/index";
+import { Redirect } from "react-router-dom";
 
 interface LoginProps {
   auth: {
@@ -28,13 +29,14 @@ interface LoginData {
 const Login: React.FC<LoginProps> = ({ auth }) => {
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
-    password: ""
+    password: "",
   });
   const { login } = auth;
 
   const dispatch = useDispatch();
 
   const { signin } = bindActionCreators(userActionsCreator, dispatch);
+  const state = useSelector((state) => state);
 
   function onTextChange(e) {
     const { name, value } = e.target;
@@ -43,7 +45,7 @@ const Login: React.FC<LoginProps> = ({ auth }) => {
       [name]: value,
     });
   }
-
+  
   function onClickLogIn(e) {
     e.preventDefault();
     signin(loginData);
@@ -53,10 +55,16 @@ const Login: React.FC<LoginProps> = ({ auth }) => {
   //     login();
   //   }, [login]);
 
+  if (state['users'].redirectTo) {
+    const url = "/home";
+    return <Redirect to={url} />;
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <div className="paper">
         <Typography variant="h4">ToDo App</Typography>
+        {/* <h1>{user["name"]}</h1> */}
         <form className="loginForm">
           <Grid item xs={12}>
             <TextField

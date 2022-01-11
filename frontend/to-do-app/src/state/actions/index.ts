@@ -16,7 +16,7 @@ interface SIGNOUT_ACTION {
 
 interface SET_USER_DATA {
   type: UserTypes.SET_USER_DATA;
-  payload: Object;
+  payload: boolean;
 }
 
 
