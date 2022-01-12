@@ -26,7 +26,7 @@ interface SHOW_ALL_TODOS {
 
 interface POST_TODO {
   type: ToDosTypes.POSTONE;
-  payload: Object;
+  payload: boolean;
 }
 
 interface DELETE_TODO {
@@ -39,6 +39,10 @@ interface UPDATE_TODO {
   payload: Object;
 }
 
+interface SET_SUCCESS_FALSE {
+  type: ToDosTypes.SUCCESSTOFALSE;
+}
+
 export type ACTIONS =
   | SIGNIN_ACTION
   | SIGNUP_ACTION
@@ -47,4 +51,5 @@ export type ACTIONS =
   | SHOW_ALL_TODOS
   | POST_TODO
   | DELETE_TODO
-  | UPDATE_TODO;
+  | UPDATE_TODO
+  | SET_SUCCESS_FALSE;

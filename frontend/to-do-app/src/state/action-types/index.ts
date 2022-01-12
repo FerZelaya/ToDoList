@@ -10,5 +10,6 @@ export enum ToDosTypes {
     SHOWALL = "show-all",
     POSTONE = "post-one",
     DELETEONE = "delete-one",
-    UPDATE = "update-one"
+    UPDATE = "update-one",
+    SUCCESSTOFALSE = "set-to-false"
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
-import { todosActionCreator } from "../../state/action-creators/ToDo-actions";
+import { todosActionCreator } from "state/action-creators/ToDo-actions";
+import { ToDosTypes } from "state/action-types/index";
 import {
   Grid,
   Typography,
@@ -21,6 +22,7 @@ import "./home.css";
 
 const Home: React.FC = () => {
   const allTodos = useSelector((state) => state["ToDos"].todos);
+  const successHander = useSelector((state)=> state['ToDos'].success)
   const [modalConfig, setModalConfig] = useState({
     open: false,
     modalType: "",
@@ -36,6 +38,13 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
 
   const { getAll, postOne } = bindActionCreators(todosActionCreator, dispatch);
+
+  useEffect(()=>{
+    if(successHander){
+      getAll()
+      dispatch({type: ToDosTypes.SUCCESSTOFALSE})
+    }
+  },[successHander])
 
   function onTextChange(e) {
     const { name, value } = e.target;
@@ -53,9 +62,11 @@ const Home: React.FC = () => {
     });
   }
 
-  const postNewToDo = () => {
+  const postNewToDo = async () => {
     if(todoData.title !== ''){
-      
+      await postOne(todoData)
+    } else {
+      alert("Please fill the title of your to do")
     }
   }
 
@@ -162,8 +173,10 @@ const Home: React.FC = () => {
               label="Title"
               name="title"
               type="text"
+              value={todoData.title}
+              onChange={onTextChange}
             />
-            <Button variant="contained" fullWidth size="large" color="primary">
+            <Button variant="contained" fullWidth size="large" color="primary" onClick={postNewToDo}>
               Add
             </Button>
           </Box>

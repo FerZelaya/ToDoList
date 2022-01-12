@@ -31,8 +31,8 @@ export const postTodo = (todoInfo: Object) => {
     }
 
     dispatch({
-        type: ToDosTypes.SHOWALL,
-        payload: postedToDo['Success']
+        type: ToDosTypes.POSTONE,
+        payload: postedToDo['Success'] ? true : false
     })
   };
 };
