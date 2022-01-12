@@ -79,6 +79,23 @@ module.exports = class {
 
     }
 
+    static async updateCompleted(completed, ToDoID){
+        try {
+            const updatedToDo = await ToDoController.updateOne(
+                {_id: ToDoID},
+                {$set: 
+                    {
+                        completed: completed
+                    }
+                }
+            );
+            return updatedToDo;
+        } catch(error){
+            console.log(error);
+            return error
+        }
+    }
+
     //update a to do
     static async deleteToDo(ToDoID){
         try {

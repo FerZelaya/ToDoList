@@ -11,5 +11,6 @@ export enum ToDosTypes {
     POSTONE = "post-one",
     DELETEONE = "delete-one",
     UPDATE = "update-one",
+    UPDATE_COMPLETION = "update-completion",
     SUCCESSTOFALSE = "set-to-false"
 }

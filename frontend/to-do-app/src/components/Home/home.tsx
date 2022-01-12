@@ -20,31 +20,48 @@ import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import "./home.css";
 
-const Home: React.FC = () => {
+interface authProps {
+  auth: {
+    isLogged: boolean;
+    login: Function;
+    loadingHandler: Function;
+  };
+}
+
+interface ToDoData {
+  title: string;
+  description: string;
+  completed: boolean;
+  date: string;
+}
+
+const Home: React.FC<authProps> = ({ auth }) => {
   const allTodos = useSelector((state) => state["ToDos"].todos);
-  const successHander = useSelector((state)=> state['ToDos'].success)
-  const [modalConfig, setModalConfig] = useState({
+  const successHander = useSelector((state) => state["ToDos"].success);
+  const [modalConfig, setModalConfig] = useState<Object>({
     open: false,
     modalType: "",
+    todoID: "",
   });
-  const [todos, setTodos] = useState(allTodos);
-  const [todoData, setTodoData] = useState({
+  const [todos] = useState<Array<Object>>(allTodos);
+  const [todoData, setTodoData] = useState<ToDoData>({
     title: "",
     description: "",
     completed: false,
     date: "",
   });
-
+  const { loadingHandler } = auth;
   const dispatch = useDispatch();
 
-  const { getAll, postOne } = bindActionCreators(todosActionCreator, dispatch);
+  const { getAll, postOne, updateOne, deleteOne, updateCompletion } =
+    bindActionCreators(todosActionCreator, dispatch);
 
-  useEffect(()=>{
-    if(successHander){
-      getAll()
-      dispatch({type: ToDosTypes.SUCCESSTOFALSE})
+  useEffect(() => {
+    if (successHander) {
+      getAll(loadingHandler);
+      dispatch({ type: ToDosTypes.SUCCESSTOFALSE });
     }
-  },[successHander])
+  }, [successHander]);
 
   function onTextChange(e) {
     const { name, value } = e.target;
@@ -55,20 +72,37 @@ const Home: React.FC = () => {
   }
 
   function onCheckBoxChange(e) {
-    const { value } = e.target;
+    const { checked } = e.target;
     setTodoData({
       ...todoData,
-      completed: value,
+      completed: checked,
     });
+    console.log(todoData.completed);
   }
 
   const postNewToDo = async () => {
-    if(todoData.title !== ''){
-      await postOne(todoData)
+    if (todoData.title !== "") {
+      await postOne(todoData, loadingHandler);
     } else {
-      alert("Please fill the title of your to do")
+      alert("Please fill the title of your to do");
     }
-  }
+  };
+
+  const updateToDO = async (todoID: string) => {
+    if (todoData.title !== "") {
+      await updateOne(todoID, todoData, loadingHandler);
+    } else {
+      alert("Please fill the title of your to do");
+    }
+  };
+
+  const updateCompletionToDo = async (todoID: string, newCompletion: boolean) => {
+    await updateCompletion(todoID, newCompletion, loadingHandler);
+  };
+
+  const deleteToDO = async (todoID: string) => {
+    await deleteOne(todoID, loadingHandler);
+  };
 
   const handleOpenAddModal = () => {
     setModalConfig({
@@ -78,11 +112,13 @@ const Home: React.FC = () => {
     });
   };
 
-  const handleOpenEditModal = () => {
+  const handleOpenEditModal = (todoId: string, todoIndex: number) => {
     setModalConfig({
       ...modalConfig,
       open: true,
       modalType: "EDIT",
+      todoID: todoId,
+      todoIndex: todoIndex,
     });
   };
 
@@ -107,30 +143,40 @@ const Home: React.FC = () => {
     justifyContent: "center",
   };
 
-  const todosComponent = todos.map((val, index) => {
-    const date = new Date(val["date"]);
-    return (
-      <div className="todo-item" key={index}>
-        <div className="todo-title">
-          <label>{val["title"]}</label>
+  const todosComponent =
+    todos &&
+    todos.map((val, index) => {
+      return (
+        <div className="todo-item" key={index}>
+          <div className="todo-title">
+            <label>{val["title"]}</label>
+          </div>
+          <div className="actions-container">
+            <Checkbox
+              defaultChecked={val["completed"] && true}
+              name="completed"
+              value={val["completed"]}
+              onChange={() => updateCompletionToDo(val['_id'], !val['completed'])}
+            />
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              onClick={() => handleOpenEditModal(val["_id"], index)}
+            >
+              Edit
+            </Button>
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={() => deleteToDO(val["_id"])}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </div>
         </div>
-        <div className="actions-container">
-          <Checkbox
-            defaultChecked={val["completed"] && true}
-            name="completed"
-            value={todoData["completed"]}
-            onChange={onCheckBoxChange}
-          />
-          <Button variant="contained" size="large" color="primary" onClick={handleOpenEditModal}>
-            Edit
-          </Button>
-          <IconButton aria-label="delete" color="error">
-            <DeleteIcon />
-          </IconButton>
-        </div>
-      </div>
-    );
-  });
+      );
+    });
 
   useEffect(() => {}, []);
   return (
@@ -140,14 +186,18 @@ const Home: React.FC = () => {
           aria-label="delete"
           color="primary"
           size="large"
-          onClick={getAll}
+          onClick={() => getAll(loadingHandler)}
         >
           <RotateLeftIcon fontSize="large" />
         </IconButton>
         <div className="home-title">
           <Typography variant="h3">All things you need to do</Typography>
         </div>
-        <IconButton aria-label="delete" color="primary" onClick={handleOpenAddModal}>
+        <IconButton
+          aria-label="delete"
+          color="primary"
+          onClick={handleOpenAddModal}
+        >
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
       </div>
@@ -176,7 +226,13 @@ const Home: React.FC = () => {
               value={todoData.title}
               onChange={onTextChange}
             />
-            <Button variant="contained" fullWidth size="large" color="primary" onClick={postNewToDo}>
+            <Button
+              variant="contained"
+              fullWidth
+              size="large"
+              color="primary"
+              onClick={postNewToDo}
+            >
               Add
             </Button>
           </Box>
@@ -192,8 +248,16 @@ const Home: React.FC = () => {
               label="Title"
               name="title"
               type="text"
+              value={todoData.title}
+              onChange={onTextChange}
             />
-            <Button variant="contained" fullWidth size="large" color="primary">
+            <Button
+              variant="contained"
+              fullWidth
+              size="large"
+              color="primary"
+              onClick={() => updateToDO(modalConfig["todoID"])}
+            >
               Apply
             </Button>
           </Box>

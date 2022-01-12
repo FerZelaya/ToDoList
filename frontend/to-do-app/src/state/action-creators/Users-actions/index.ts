@@ -4,7 +4,8 @@ import { ACTIONS } from "../../actions";
 import * as axiosActions from "utilities/axios";
 import { signIn } from "components/Login/actions";
 
-export const signInUser = (userData: Object) => {
+export const signInUser = (userData: Object, loadingHandler: Function) => {
+  loadingHandler(true)
   return async (dispatch: Dispatch<ACTIONS>) => {
     var user;
     var jwt;
@@ -28,8 +29,10 @@ export const signInUser = (userData: Object) => {
       }
       if(user){
         alert("Log In successfull.");
+        loadingHandler(false)
       }
     } catch (error) {
+      loadingHandler(false)
       alert("Error trying to login");
       console.log(error);
     }

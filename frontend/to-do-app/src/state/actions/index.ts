@@ -39,6 +39,11 @@ interface UPDATE_TODO {
   payload: boolean;
 }
 
+interface UPDATE_COMPLETION{
+  type: ToDosTypes.UPDATE_COMPLETION;
+  payload: boolean;
+}
+
 interface SET_SUCCESS_FALSE {
   type: ToDosTypes.SUCCESSTOFALSE;
 }
@@ -52,4 +57,5 @@ export type ACTIONS =
   | POST_TODO
   | DELETE_TODO
   | UPDATE_TODO
-  | SET_SUCCESS_FALSE;
+  | SET_SUCCESS_FALSE
+  | UPDATE_COMPLETION;

@@ -28,6 +28,11 @@ const reducer = (state = initialState, action: ACTIONS) => {
         ...state,
         success: action.payload,
       };
+    case ToDosTypes.UPDATE_COMPLETION:
+      return {
+        ...state,
+        success: action.payload,
+      };
     case ToDosTypes.SUCCESSTOFALSE:
       return {
         ...state,

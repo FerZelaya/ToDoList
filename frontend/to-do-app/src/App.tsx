@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 //Components
 import Login from "./components/Login/login";
 import Home from "./components/Home/home";
+import LottieView from './components/Lottie/LottieView'
 
 
 interface AppState {
@@ -32,22 +33,32 @@ const App: React.FC = () => {
     user: getLocalStorage("user") || {},
     jwt: getLocalStorage("jwt") || "",
     isLogged: userState['users'].isLogged,
-    loadingBackend: false,
+    loadingBackend: userState['users'].loadingBackend,
   });
+  const [loadingAPI, setLoadingAPI] = useState<Boolean>(false);
   const dispatch = useDispatch();
   const { setUser } = bindActionCreators(userActionsCreator, dispatch);
   const { getAll } = bindActionCreators(todosActionCreator, dispatch);
 
   useEffect(()=>{
    setUser() 
-   getAll()
+   getAll(loadingHandler)
   },[])
   
+  const loadingHandler = (loading: Boolean) => { setLoadingAPI(loading)};
+
   const auth = {
-    isLogged: userState['users'].isLogged
+    isLogged: userState['users'].isLogged,
+    loading: false,
+    loadingHandler: loadingHandler
   };
 
   const redirectComp = () => <Redirect to="/login"/>
+
+
+  if(loadingAPI){
+    return <LottieView/>
+  }
 
   return (
     <Router>

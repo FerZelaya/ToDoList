@@ -47,6 +47,20 @@ router.put('/ToDos/:ToDoID', async(req,res) => {
     }
 })
 
+router.put('/ToDos/completed/:ToDoID', async(req,res) => {
+    try {
+        var {completed} = req.body
+        var ToDoID = req.params.ToDoID
+        var result = await model.updateCompleted(completed, ToDoID);
+        console.log(result);
+        var updated = result ? true : false
+        res.status(200).json({"Success": updated})
+    }catch(error){
+        console.log(error);
+        res.status(500).json({"ERROR":"Unable to update your To Do"})
+    }
+})
+
 router.delete('/ToDos/:ToDoID', async(req,res) => {
     try {
         var ToDoID = req.params.ToDoID
