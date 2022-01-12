@@ -5,6 +5,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
+import {createMuiTheme, ThemeProvider} from '@material-ui/core'
+// const myTheme = createMuiTheme({
+//   typography:{
+//     'Roboto'
+//   },
+//   palette:{
+//     primary:{
+//       main:'#8BC34A'
+//     },
+//     secondary:{
+//       main:'#689F38'
+//     }
+//   }
+// })
 
 ReactDOM.render(
   <React.StrictMode>

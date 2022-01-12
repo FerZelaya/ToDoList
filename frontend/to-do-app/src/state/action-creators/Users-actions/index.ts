@@ -58,23 +58,33 @@ export const signOutUser = () => {
   };
 };
 
-// export const setUserData = (jwt) => {
-//   return (dispatch: Dispatch<ACTIONS>) => {
-//     let isLogged = false
-//     if(jwt !== ""){
-//       axiosActions.setJWT(jwt),
-//       isLogged = true
-//     }
-//     dispatch({
-//       type: UserTypes.SET_USER_DATA,
-//       payload: isLogged
-//     });
-//   };
-// };
+export const setUserData = () => (dispatch: Dispatch<ACTIONS>) => {
+    
+    const user = axiosActions.getLocalStorage('user') || {}
+    const jwt = axiosActions.getLocalStorage('jwt') || ""
+    
+    var userLoggedIn = {};
+    if(jwt !== ""){
+      axiosActions.setJWT(jwt)
+      userLoggedIn = {
+        user: user,
+        jwt: jwt,
+        isLogged: true,
+        redirectTo: true,
+        loadingBackend: false
+      }
+    }
+    
+    dispatch({
+      type: UserTypes.SET_USER_DATA,
+      payload: userLoggedIn
+    });
+  };
+
 
 export const userActionsCreator = {
   signin: signInUser,
   signout: signOutUser,
   signup: signUpUser,
-  // setUser: setUserData
+  setUser: setUserData
 };

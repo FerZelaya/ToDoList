@@ -1,7 +1,5 @@
 import { UserTypes } from "../action-types";
 import { ACTIONS } from "../actions";
-import * as axiosActions from "../../utilities/axios";
-import { signIn } from "components/Login/actions";
 
 const initialState = {
   redirectTo: false,
@@ -17,13 +15,14 @@ const reducer = (state = initialState, action: ACTIONS) => {
       let newState = Object.assign(state, { ...action.payload });
       return {
         ...state,
-        ...newState,
-        // user: action.payload["user"],
-        // jwt: action.payload["jwt"],
-        // redirectTo: true,
-        // isLogged: true,
-        // loadingBackend: false
+        ...newState
       };
+    case UserTypes.SET_USER_DATA:
+      let userLogged = Object.assign(state, { ...action.payload });
+      return{
+        ...state,
+        ...userLogged,
+      }
     case UserTypes.SIGNUP:
       return { ...state };
     case UserTypes.SIGNOUT:

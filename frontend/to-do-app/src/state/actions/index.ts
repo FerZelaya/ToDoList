@@ -1,4 +1,4 @@
-import { UserTypes } from "../action-types";
+import { UserTypes, ToDosTypes } from "../action-types";
 
 interface SIGNIN_ACTION {
   type: UserTypes.SIGNIN;
@@ -16,8 +16,35 @@ interface SIGNOUT_ACTION {
 
 interface SET_USER_DATA {
   type: UserTypes.SET_USER_DATA;
-  payload: boolean;
+  payload: Object;
 }
 
+interface SHOW_ALL_TODOS {
+  type: ToDosTypes.SHOWALL;
+  payload: Array<any>;
+}
 
-export type ACTIONS = SIGNIN_ACTION | SIGNUP_ACTION | SIGNOUT_ACTION | SET_USER_DATA
+interface POST_TODO {
+  type: ToDosTypes.POSTONE;
+  payload: Object;
+}
+
+interface DELETE_TODO {
+  type: ToDosTypes.DELETEONE;
+  payload: String;
+}
+
+interface UPDATE_TODO {
+  type: ToDosTypes.SHOWALL;
+  payload: Object;
+}
+
+export type ACTIONS =
+  | SIGNIN_ACTION
+  | SIGNUP_ACTION
+  | SIGNOUT_ACTION
+  | SET_USER_DATA
+  | SHOW_ALL_TODOS
+  | POST_TODO
+  | DELETE_TODO
+  | UPDATE_TODO;

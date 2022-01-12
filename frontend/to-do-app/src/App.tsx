@@ -11,6 +11,7 @@ import {
 } from "./utilities/axios";
 import { bindActionCreators } from "redux";
 import { userActionsCreator } from "./state/action-creators/Users-actions";
+import { todosActionCreator } from "./state/action-creators/ToDo-actions";
 import { useSelector, useDispatch } from "react-redux";
 //Components
 import Login from "./components/Login/login";
@@ -25,39 +26,25 @@ interface AppState {
 }
 
 const App: React.FC = () => {
+
+  const userState = useSelector((state) => state); 
   const [state, setState] = useState<AppState>({
     user: getLocalStorage("user") || {},
     jwt: getLocalStorage("jwt") || "",
-    isLogged: false,
+    isLogged: userState['users'].isLogged,
     loadingBackend: false,
   });
   const dispatch = useDispatch();
-  
-  const userState = useSelector((state) => state); 
-  
+  const { setUser } = bindActionCreators(userActionsCreator, dispatch);
+  const { getAll } = bindActionCreators(todosActionCreator, dispatch);
 
-  // useEffect(()=>{
-  //   setState({
-  //     ...state,
-  //     isLogged: userState['users'].isLogged,
-  //     loadingBackend: userState['users'].loadingBackend
-  //   })
-  // },[])
-  
-  if (state.jwt !== "") {
-    setJWT(state.jwt);
-    setState({ ...state, isLogged: true });
-  }
-
-  // const setLogin = (user, jwt) => {
-  //   setState({ ...state, user: user, jwt: jwt, isLogged: true });
-  //   setLocalStorage("user", JSON.stringify(state.user))
-  //   setLocalStorage("jwt", state.jwt)
-  // };
+  useEffect(()=>{
+   setUser() 
+   getAll()
+  },[])
   
   const auth = {
-    isLogged: userState['users'].isLogged,
-    // login: setLogin,
+    isLogged: userState['users'].isLogged
   };
 
   const redirectComp = () => <Redirect to="/login"/>
