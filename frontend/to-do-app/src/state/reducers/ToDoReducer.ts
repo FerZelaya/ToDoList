@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { ToDosTypes } from "../action-types";
 import { ACTIONS } from "../actions";
 
@@ -19,11 +18,21 @@ const reducer = (state = initialState, action: ACTIONS) => {
         ...state,
         success: action.payload,
       };
-    case ToDosTypes.SUCCESSTOFALSE:
-      return{
+    case ToDosTypes.DELETEONE:
+      return {
         ...state,
-        success: false
-      }
+        success: action.payload,
+      };
+    case ToDosTypes.UPDATE:
+      return {
+        ...state,
+        success: action.payload,
+      };
+    case ToDosTypes.SUCCESSTOFALSE:
+      return {
+        ...state,
+        success: false,
+      };
     default:
       return state;
   }

@@ -31,12 +31,12 @@ interface POST_TODO {
 
 interface DELETE_TODO {
   type: ToDosTypes.DELETEONE;
-  payload: String;
+  payload: boolean;
 }
 
 interface UPDATE_TODO {
-  type: ToDosTypes.SHOWALL;
-  payload: Object;
+  type: ToDosTypes.UPDATE;
+  payload: boolean;
 }
 
 interface SET_SUCCESS_FALSE {
