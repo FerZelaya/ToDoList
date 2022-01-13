@@ -15,8 +15,8 @@ const LottieView: React.FC = () => {
     <div>
       <Lottie
         options={defaultOptions}
-        height={400}
-        width={400}
+        height={500}
+        width={500}
       />
     </div>
   );

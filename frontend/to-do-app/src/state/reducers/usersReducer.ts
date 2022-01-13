@@ -7,6 +7,7 @@ const initialState = {
   jwt: "",
   isLogged: false,
   loadingBackend: false,
+  success: false,
 };
 
 const reducer = (state = initialState, action: ACTIONS) => {
@@ -15,18 +16,18 @@ const reducer = (state = initialState, action: ACTIONS) => {
       let newState = Object.assign(state, { ...action.payload });
       return {
         ...state,
-        ...newState
+        ...newState,
       };
     case UserTypes.SET_USER_DATA:
       let userLogged = Object.assign(state, { ...action.payload });
-      return{
+      return {
         ...state,
         ...userLogged,
-      }
+      };
     case UserTypes.SIGNUP:
-      return { ...state };
+      return { ...state, success: action.payload };
     case UserTypes.SIGNOUT:
-      return { ...state };
+      return { ...state, state: initialState };
     default:
       return state;
   }

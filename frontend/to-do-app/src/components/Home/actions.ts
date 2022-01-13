@@ -10,6 +10,7 @@ export const showAlluser = async () => {
         if (error.response.status === 401) {
           removeLocalStorage('user')
           removeLocalStorage('jwt')
+          // window.location.reload()
           return []
         }
         return error

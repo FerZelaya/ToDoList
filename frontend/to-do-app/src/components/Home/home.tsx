@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { todosActionCreator } from "state/action-creators/ToDo-actions";
+import { userActionsCreator } from "state/action-creators/Users-actions";
 import { ToDosTypes } from "state/action-types/index";
 import {
   Grid,
@@ -56,6 +57,8 @@ const Home: React.FC<authProps> = ({ auth }) => {
   const { getAll, postOne, updateOne, deleteOne, updateCompletion } =
     bindActionCreators(todosActionCreator, dispatch);
 
+  const { signout } = bindActionCreators(userActionsCreator, dispatch);
+
   useEffect(() => {
     if (successHander) {
       getAll(loadingHandler);
@@ -71,14 +74,14 @@ const Home: React.FC<authProps> = ({ auth }) => {
     });
   }
 
-  function onCheckBoxChange(e) {
-    const { checked } = e.target;
-    setTodoData({
-      ...todoData,
-      completed: checked,
-    });
-    console.log(todoData.completed);
-  }
+  // function onCheckBoxChange(e) {
+  //   const { checked } = e.target;
+  //   setTodoData({
+  //     ...todoData,
+  //     completed: checked,
+  //   });
+  //   console.log(todoData.completed);
+  // }
 
   const postNewToDo = async () => {
     if (todoData.title !== "") {
@@ -96,7 +99,10 @@ const Home: React.FC<authProps> = ({ auth }) => {
     }
   };
 
-  const updateCompletionToDo = async (todoID: string, newCompletion: boolean) => {
+  const updateCompletionToDo = async (
+    todoID: string,
+    newCompletion: boolean,
+  ) => {
     await updateCompletion(todoID, newCompletion, loadingHandler);
   };
 
@@ -156,7 +162,9 @@ const Home: React.FC<authProps> = ({ auth }) => {
               defaultChecked={val["completed"] && true}
               name="completed"
               value={val["completed"]}
-              onChange={() => updateCompletionToDo(val['_id'], !val['completed'])}
+              onChange={() =>
+                updateCompletionToDo(val["_id"], !val["completed"])
+              }
             />
             <Button
               variant="contained"
