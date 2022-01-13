@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { todosActionCreator } from "state/action-creators/ToDo-actions";
 import { userActionsCreator } from "state/action-creators/Users-actions";
-import { ToDosTypes } from "state/action-types/index";
+import { ToDosTypes, UserTypes } from "state/action-types/index";
 import {
   Grid,
   Typography,
@@ -38,7 +38,8 @@ interface ToDoData {
 
 const Home: React.FC<authProps> = ({ auth }) => {
   const allTodos = useSelector((state) => state["ToDos"].todos);
-  const successHander = useSelector((state) => state["ToDos"].success);
+  const successPostHandler = useSelector((state) => state["ToDos"].success);
+  const successLoginHander = useSelector((state) => state["users"].success);
   const [modalConfig, setModalConfig] = useState<Object>({
     open: false,
     modalType: "",
@@ -60,11 +61,15 @@ const Home: React.FC<authProps> = ({ auth }) => {
   const { signout } = bindActionCreators(userActionsCreator, dispatch);
 
   useEffect(() => {
-    if (successHander) {
+    if (successLoginHander) {
+      getAll(loadingHandler);
+      dispatch({ type: UserTypes.SUCCESSTOFALSE });
+    }
+    if (successPostHandler) {
       getAll(loadingHandler);
       dispatch({ type: ToDosTypes.SUCCESSTOFALSE });
     }
-  }, [successHander]);
+  }, [successLoginHander, successPostHandler]);
 
   function onTextChange(e) {
     const { name, value } = e.target;
@@ -82,6 +87,11 @@ const Home: React.FC<authProps> = ({ auth }) => {
   //   });
   //   console.log(todoData.completed);
   // }
+
+  const signOutUser = async () => {
+    await signout();
+    window.location.reload()
+  };
 
   const postNewToDo = async () => {
     if (todoData.title !== "") {
@@ -194,7 +204,8 @@ const Home: React.FC<authProps> = ({ auth }) => {
           aria-label="delete"
           color="primary"
           size="large"
-          onClick={() => getAll(loadingHandler)}
+          // onClick={() => getAll(loadingHandler)}
+          onClick={signOutUser}
         >
           <RotateLeftIcon fontSize="large" />
         </IconButton>

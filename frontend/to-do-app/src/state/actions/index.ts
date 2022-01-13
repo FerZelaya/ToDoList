@@ -48,6 +48,11 @@ interface SET_SUCCESS_FALSE {
   type: ToDosTypes.SUCCESSTOFALSE;
 }
 
+interface SET_LOGIN_SUCCESS_FALSE {
+  type: UserTypes.SUCCESSTOFALSE;
+}
+
+
 export type ACTIONS =
   | SIGNIN_ACTION
   | SIGNUP_ACTION
@@ -58,4 +63,5 @@ export type ACTIONS =
   | DELETE_TODO
   | UPDATE_TODO
   | SET_SUCCESS_FALSE
+  | SET_LOGIN_SUCCESS_FALSE
   | UPDATE_COMPLETION;

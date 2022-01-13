@@ -3,7 +3,8 @@ export enum UserTypes {
     SIGNUP = "sign-up",
     SIGNOUT = "sign-out",
     SET_USER_DATA = "set-user-data",
-    DELETE_USER_DATA = "delete-user-data"
+    DELETE_USER_DATA = "delete-user-data",
+    SUCCESSTOFALSE = "set-to-false"
 }
 
 export enum ToDosTypes {

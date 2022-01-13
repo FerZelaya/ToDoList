@@ -28,6 +28,11 @@ const reducer = (state = initialState, action: ACTIONS) => {
       return { ...state, success: action.payload };
     case UserTypes.SIGNOUT:
       return { ...state, state: initialState };
+    case UserTypes.SUCCESSTOFALSE:
+      return {
+        ...state,
+        success: false,
+      };
     default:
       return state;
   }

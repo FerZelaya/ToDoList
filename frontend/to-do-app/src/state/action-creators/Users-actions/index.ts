@@ -26,9 +26,9 @@ export const signInUser = (userData: Object, loadingHandler: Function) => {
         redirectTo: true,
         isLogged: true,
         loadingBackend: false,
+        success: true
       };
       if (user) {
-        alert("Log In successfull.");
         loadingHandler(false);
       }
     } catch (error) {
