@@ -7,8 +7,10 @@ import {
   Container,
   FormControl,
   InputAdornment,
-  Modal,
-  Box,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
 import { AccountCircle, VpnKey, NoteAdd, Input } from "@material-ui/icons";
 import "./login.css";
@@ -205,19 +207,18 @@ const Login: React.FC<authProps> = ({ auth }) => {
                 </Button>
               </Grid>
 
-              <Modal
+              <Dialog
                 open={modalConfig["open"]}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
               >
-                <Box sx={style} justifyContent="center">
-                  <Typography variant="h4">Create Your Account</Typography>
+                <DialogContent>
+                  <DialogTitle>Create Your Account</DialogTitle>
                   <TextField
-                    variant="outlined"
-                    margin="normal"
+                    variant="standard"
+                    margin="dense"
                     required
                     fullWidth
+                    autoFocus
                     id="name"
                     label="Name"
                     name="name"
@@ -226,8 +227,8 @@ const Login: React.FC<authProps> = ({ auth }) => {
                     onChange={onRegisterTextChange}
                   />
                   <TextField
-                    variant="outlined"
-                    margin="normal"
+                    variant="standard"
+                    margin="dense"
                     required
                     fullWidth
                     id="email"
@@ -238,8 +239,8 @@ const Login: React.FC<authProps> = ({ auth }) => {
                     onChange={onRegisterTextChange}
                   />
                   <TextField
-                    variant="outlined"
-                    margin="normal"
+                    variant="standard"
+                    margin="dense"
                     required
                     fullWidth
                     id="password"
@@ -249,8 +250,9 @@ const Login: React.FC<authProps> = ({ auth }) => {
                     value={registerData.password}
                     onChange={onRegisterTextChange}
                   />
-                  <Button
-                    variant="contained"
+                  <DialogActions>
+                    <Button
+                    variant="outlined"
                     fullWidth
                     size="large"
                     color="primary"
@@ -258,8 +260,10 @@ const Login: React.FC<authProps> = ({ auth }) => {
                   >
                     Register
                   </Button>
-                </Box>
-              </Modal>
+                  </DialogActions>
+                  
+                </DialogContent>
+              </Dialog>
             </Grid>
           </FormControl>
         </form>

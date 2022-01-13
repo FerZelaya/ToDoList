@@ -58,16 +58,53 @@
   align-items: center;
 }
 
-
 @media (max-width: 400px) {
   .todo-item label {
     font-weight: 500;
     font-size: 0.9rem;
   }
-  .todo-title{
+  .todo-title {
     width: 50%;
   }
   .todo-item {
     height: 10rem;
+  }
+
+  .top-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-template-areas:
+      "title title title title"
+      "buttons buttons button button";
+    align-items: center;
+  }
+
+  .home-title{
+    text-align: center;
+    grid-area: title;
+  }
+
+  .home-title h3{
+    font-size: 1.5rem;
+  }
+
+  .sign-out-container{
+    display: flex;
+    grid-area: buttons;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .add-button{
+    display: flex;
+    align-self: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    grid-area: button;
+  }
+
+  .modal-box{
+    width: 100px;
   }
 }

@@ -9,16 +9,17 @@ import {
   Typography,
   Button,
   TextField,
-  Container,
-  Link,
   Checkbox,
   IconButton,
-  Box,
-  Modal,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { ExitToApp } from "@material-ui/icons/";
 import "./home.css";
 
 interface authProps {
@@ -90,7 +91,7 @@ const Home: React.FC<authProps> = ({ auth }) => {
 
   const signOutUser = async () => {
     await signout();
-    window.location.reload()
+    window.location.reload();
   };
 
   const postNewToDo = async () => {
@@ -200,15 +201,27 @@ const Home: React.FC<authProps> = ({ auth }) => {
   return (
     <div className="home-container">
       <div className="top-container">
-        <IconButton
-          aria-label="delete"
-          color="primary"
-          size="large"
-          // onClick={() => getAll(loadingHandler)}
-          onClick={signOutUser}
-        >
-          <RotateLeftIcon fontSize="large" />
-        </IconButton>
+        <div className="sign-out-container">
+          <IconButton
+            aria-label="delete"
+            color="primary"
+            size="large"
+            // onClick={() => getAll(loadingHandler)}
+            onClick={() => getAll(loadingHandler)}
+          >
+            <RotateLeftIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            aria-label="delete"
+            color="primary"
+            size="large"
+            // onClick={() => getAll(loadingHandler)}
+            onClick={signOutUser}
+          >
+            <ExitToApp fontSize="large" />
+          </IconButton>
+        </div>
+
         <div className="home-title">
           <Typography variant="h3">All things you need to do</Typography>
         </div>
@@ -216,6 +229,7 @@ const Home: React.FC<authProps> = ({ auth }) => {
           aria-label="delete"
           color="primary"
           onClick={handleOpenAddModal}
+          className="add-button"
         >
           <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
@@ -224,18 +238,14 @@ const Home: React.FC<authProps> = ({ auth }) => {
       <Grid container spacing={0} className="todos-container">
         {todosComponent}
       </Grid>
-      <Modal
-        open={modalConfig["open"]}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Dialog open={modalConfig["open"]} onClose={handleClose}>
         {modalConfig["modalType"] === "ADD" ? (
-          <Box sx={style} justifyContent="center">
-            <Typography variant="h4">Add New To Do</Typography>
+          <DialogContent>
+            <DialogTitle>Add New To Do</DialogTitle>
             <TextField
-              variant="outlined"
-              margin="normal"
+              variant="standard"
+              margin="dense"
+              autoFocus
               required
               fullWidth
               id="title"
@@ -245,24 +255,27 @@ const Home: React.FC<authProps> = ({ auth }) => {
               value={todoData.title}
               onChange={onTextChange}
             />
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              color="primary"
-              onClick={postNewToDo}
-            >
-              Add
-            </Button>
-          </Box>
+            <DialogActions>
+              <Button
+                variant="contained"
+                fullWidth
+                size="large"
+                color="primary"
+                onClick={postNewToDo}
+              >
+                Add
+              </Button>
+            </DialogActions>
+          </DialogContent>
         ) : (
-          <Box sx={style} justifyContent="center">
-            <Typography variant="h4">Edit</Typography>
+          <DialogContent>
+            <DialogTitle>Edit Your To Do</DialogTitle>
             <TextField
-              variant="outlined"
-              margin="normal"
+              variant="standard"
+              margin="dense"
               required
               fullWidth
+              autoFocus
               id="title"
               label="Title"
               name="title"
@@ -270,18 +283,20 @@ const Home: React.FC<authProps> = ({ auth }) => {
               value={todoData.title}
               onChange={onTextChange}
             />
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              color="primary"
-              onClick={() => updateToDO(modalConfig["todoID"])}
-            >
-              Apply
-            </Button>
-          </Box>
+            <DialogActions>
+              <Button
+                variant="contained"
+                fullWidth
+                size="large"
+                color="primary"
+                onClick={() => updateToDO(modalConfig["todoID"])}
+              >
+                Apply
+              </Button>
+            </DialogActions>
+          </DialogContent>
         )}
-      </Modal>
+      </Dialog>
     </div>
   );
 };
