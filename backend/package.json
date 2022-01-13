@@ -4,8 +4,8 @@
   "description": "ToDoList backend server app",
   "main": "src/index.js",
   "scripts": {
-    "start-dev": "nodemon ./bin/www",
     "start": "node ./bin/www",
+    "start-dev": "nodemon ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/"
   },
