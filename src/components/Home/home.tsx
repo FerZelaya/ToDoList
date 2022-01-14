@@ -147,19 +147,6 @@ const Home: React.FC<authProps> = ({ auth }) => {
     });
   };
 
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    borderRadius: "39px",
-    background: "#e0e0e0",
-    p: 4,
-    justifyContent: "center",
-  };
-
   const todosComponent =
     todos &&
     todos.map((val, index) => {

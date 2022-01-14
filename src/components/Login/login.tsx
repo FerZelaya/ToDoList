@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Typography,
@@ -19,8 +19,6 @@ import { bindActionCreators } from "redux";
 import { userActionsCreator } from "state/action-creators/Users-actions/index";
 import { todosActionCreator } from "state/action-creators/ToDo-actions/index";
 import { Redirect } from "react-router-dom";
-import { signUp } from "./actions";
-
 interface authProps {
   auth: {
     isLogged: boolean;
@@ -39,19 +37,6 @@ interface RegisterData {
   email: string;
   password: string;
 }
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "39px",
-  background: "#e0e0e0",
-  p: 4,
-  justifyContent: "center",
-};
 
 const Login: React.FC<authProps> = ({ auth }) => {
   const [loginData, setLoginData] = useState<LoginData>({

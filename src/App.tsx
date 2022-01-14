@@ -3,12 +3,6 @@ import { Switch, BrowserRouter as Router, Redirect } from "react-router-dom";
 import "./App.css";
 import PubRoute from "./utilities/publicroutes";
 import PrivRoute from "./utilities/privateroutes"
-import {
-  getLocalStorage,
-  setLocalStorage,
-  removeLocalStorage,
-  setJWT,
-} from "./utilities/axios";
 import { bindActionCreators } from "redux";
 import { userActionsCreator } from "./state/action-creators/Users-actions";
 import { todosActionCreator } from "./state/action-creators/ToDo-actions";
@@ -18,23 +12,9 @@ import Login from "./components/Login/login";
 import Home from "./components/Home/home";
 import LottieView from './components/Lottie/LottieView'
 
-
-interface AppState {
-  user: Object;
-  jwt: string;
-  isLogged: Boolean;
-  loadingBackend: Boolean;
-}
-
 const App: React.FC = () => {
 
   const userState = useSelector((state) => state); 
-  const [state, setState] = useState<AppState>({
-    user: getLocalStorage("user") || {},
-    jwt: getLocalStorage("jwt") || "",
-    isLogged: userState['users'].isLogged,
-    loadingBackend: userState['users'].loadingBackend,
-  });
   const [loadingAPI, setLoadingAPI] = useState<Boolean>(false);
   const dispatch = useDispatch();
   const { setUser } = bindActionCreators(userActionsCreator, dispatch);
