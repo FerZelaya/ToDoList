@@ -58,7 +58,7 @@
   align-items: center;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 550px) {
   .todo-item label {
     font-weight: 500;
     font-size: 0.9rem;
